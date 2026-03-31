@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Thai Practice</title>
 
 <style>
@@ -11,24 +13,32 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 15px;
+    margin: 0;
 }
 
 .card {
     background: #e0e0e0;
     padding: 25px;
     border-radius: 20px;
-    width: 380px;
+    width: 100%;
+    max-width: 420px;
     text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+h3 {
+    margin: 10px 0;
 }
 
 button {
     width: 100%;
-    padding: 12px;
-    margin-top: 8px;
+    padding: 14px;
+    margin-top: 10px;
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 16px;
     color: white;
     cursor: pointer;
 }
@@ -44,9 +54,10 @@ button {
 #counter {
     color: gray;
     margin-bottom: 10px;
+    font-size: 14px;
 }
 
-.pron-cn {
+.pron {
     font-size: 14px;
     color: #555;
 }
@@ -61,7 +72,7 @@ button {
 
     <h3 id="cn"></h3>
     <h3 id="th" class="hidden"></h3>
-    <div id="pron" class="hidden pron-cn"></div>
+    <div id="pron" class="hidden pron"></div>
 
     <button class="blue" onclick="showThai()">显示泰文</button>
     <button class="blue" onclick="showPron()">显示发音</button>
@@ -78,7 +89,7 @@ button {
 
 <script>
 
-// ⭐⭐⭐ 数据区 ⭐⭐⭐
+// ⭐⭐⭐ 数据区（以后只改这里）⭐⭐⭐
 const data = [
 {
 cn:"你不寂寞么",
@@ -141,7 +152,7 @@ function speak(text, lang="th-TH"){
 }
 
 function speakThai(){
-    speak(data[index].th, "th-TH");
+    speak(data[index].th);
 }
 
 async function autoPlayThai(){
