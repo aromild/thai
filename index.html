@@ -2,14 +2,17 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<!-- ⭐ 关键：手机自适应 -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 你的图标 -->
-    <link rel="apple-touch-icon" href="thailand.png">
 
-    <!-- 推荐一起加 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="My App">
+<!-- ⭐ 手机自适应 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ⭐ iPhone桌面图标（请放同目录） -->
+<link rel="apple-touch-icon" href="sanctuary-of-truth.png">
+
+<!-- ⭐ App模式 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thai App">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <title>Thai Practice</title>
 
@@ -32,22 +35,21 @@ body {
     width: 100%;
     max-width: 420px;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 h3 {
-    margin: 10px 0;
+    margin: 12px 0;
 }
 
 button {
     width: 100%;
-    padding: 14px;
+    padding: 15px;
     margin-top: 10px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     font-size: 16px;
     color: white;
-    cursor: pointer;
 }
 
 .blue { background: #1976D2; }
@@ -75,54 +77,41 @@ button {
 
 <div class="card">
 
-    <div id="counter"></div>
+<div id="counter"></div>
 
-    <h3 id="cn"></h3>
-    <h3 id="th" class="hidden"></h3>
-    <div id="pron" class="hidden pron"></div>
+<h3 id="cn"></h3>
+<h3 id="th" class="hidden"></h3>
+<div id="pron" class="hidden pron"></div>
 
-    <button class="blue" onclick="showThai()">显示泰文</button>
-    <button class="blue" onclick="showPron()">显示发音</button>
+<button class="blue" onclick="showThai()">显示泰文</button>
+<button class="blue" onclick="showPron()">显示发音</button>
 
-    <button class="green" onclick="speakThai()">泰语发音</button>
+<button class="green" onclick="speakThai()">泰语发音</button>
 
-    <button class="purple" onclick="autoPlayThai()">自动循环（泰语）</button>
-    <button class="purple" onclick="autoPlayCNTH()">自动循环（中泰）</button>
+<button class="purple" onclick="autoPlayThai()">自动循环（泰语）</button>
+<button class="purple" onclick="autoPlayCNTH()">自动循环（中泰）</button>
 
-    <button class="gray" onclick="next()">下一句</button>
-    <button class="orange" onclick="random()">随机一句</button>
+<button class="gray" onclick="next()">下一句</button>
+<button class="orange" onclick="random()">随机一句</button>
 
 </div>
 
 <script>
 
-// ⭐⭐⭐ 数据区（以后只改这里）⭐⭐⭐
+// ⭐⭐⭐ 数据区 ⭐⭐⭐
 const data = [
-{
-cn:"你不寂寞么",
-th:"ไม่เหงาเหรอ",
-pron:"mâi ngǎo rŏe （麦-老-罗？）"
-},
-{
-cn:"昨天晚上你梦到我了吗？",
-th:"เมื่อวานคุณฝันถึงผมไหม",
-pron:"Muea-wan kun fan-teung pom mai?"
-},
-{
-cn:"这个甜么？",
-th:"อันนี้หวานไหม",
-pron:"an-ní wǎan mái"
-},
-{
-cn:"比我还甜吗？",
-th:"หวานกว่าฉันไหม",
-pron:"wǎan gwàa chǎn mái"
-},
-{
-cn:"不要辣",
-th:"ไม่เผ็ดนะ / ไม่เผ็ดครับ",
-pron:"mâi phèt ná / mâi phèt khráp"
-}
+
+{cn:"你不寂寞么",th:"ไม่เหงาเหรอ",pron:"mâi ngǎo rŏe"},
+{cn:"昨天晚上你梦到我了吗？",th:"เมื่อวานคุณฝันถึงผมไหม",pron:"Muea-wan kun fan-teung pom mai"},
+{cn:"这个甜么？",th:"อันนี้หวานไหม",pron:"an-ní wǎan mái"},
+{cn:"比我还甜吗？",th:"หวานกว่าฉันไหม",pron:"wǎan gwàa chǎn mái"},
+{cn:"不要辣",th:"ไม่เผ็ดนะ / ไม่เผ็ดครับ",pron:"mâi phèt ná / mâi phèt khráp"},
+{cn:"有什么推荐吗？",th:"มีอะไรแนะนำไหม",pron:"mii à-rai náe-nam mái"},
+{cn:"明天你有空吗？",th:"พรุ่งนี้คุณว่างไหม",pron:"phrùng-níi khun wâang mái"},
+{cn:"明天你准备去哪里？",th:"พรุ่งนี้คุณไปไหน",pron:"phrùng-níi khun pai năi"},
+{cn:"我带你去吃好吃的。",th:"เดี๋ยวผมพาไปกินของอร่อย",pron:"dĭao pom phaa pai gin khŏng a-ròi"},
+{cn:"明天我们一起去打高尔夫？",th:"พรุ่งนี้เราไปตีกอล์ฟด้วยกันไหม",pron:"phrùng-níi rao pai dtì golf dûai gan mái"}
+
 ];
 // ⭐⭐⭐ 结束 ⭐⭐⭐
 
