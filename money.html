@@ -122,8 +122,14 @@ data.forEach((item, index) => {
 function toggle(index) {
     const thai = document.getElementById(`thai-${index}`);
     const pron = document.getElementById(`pron-${index}`);
-    thai.style.display = thai.style.display === "none" ? "block" : "none";
-    pron.style.display = pron.style.display === "none" ? "block" : "none";
+
+    if (thai.style.display === "block") {
+        thai.style.display = "none";
+        pron.style.display = "none";
+    } else {
+        thai.style.display = "block";
+        pron.style.display = "block";
+    }
 }
 
 function speak(text) {
