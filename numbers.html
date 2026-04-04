@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+
+<!-- ⭐ 手机适配 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thai Numbers">
+
+<title>泰语数字（发音版）</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f5f5;
+    padding: 15px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.line {
+    font-size: 17px;
+}
+
+button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    background: #4CAF50;
+    color: white;
+    font-size: 14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid" id="list"></div>
+
+<script>
+const words = [
+    {num:"0", th:"ศูนย์", rom:"sun"},
+    {num:"1", th:"หนึ่ง", rom:"nueng"},
+    {num:"2", th:"สอง", rom:"saawng"},
+    {num:"3", th:"สาม", rom:"saam"},
+    {num:"4", th:"สี่", rom:"si"},
+    {num:"5", th:"ห้า", rom:"haa"},
+    {num:"6", th:"หก", rom:"hok"},
+    {num:"7", th:"เจ็ด", rom:"jet"},
+    {num:"8", th:"แปด", rom:"bpaet"},
+    {num:"9", th:"เก้า", rom:"gao"},
+    {num:"10", th:"สิบ", rom:"sip"},
+    {num:"20", th:"ยี่สิบ", rom:"yi sip"},
+    {num:"50", th:"ห้าสิบ", rom:"haa sip"},
+    {num:"100", th:"หนึ่งร้อย", rom:"nueng roi"},
+    {num:"500", th:"ห้าร้อย", rom:"haa roi"},
+    {num:"285", th:"สอง + แปด + ห้า"} // ⭐ 不带罗马音
+];
+
+function speak(text){
+    let msg = new SpeechSynthesisUtterance(text);
+    msg.lang = "th-TH";
+    speechSynthesis.speak(msg);
+}
+
+const container = document.getElementById("list");
+
+words.forEach(w => {
+    let div = document.createElement("div");
+    div.className = "card";
+
+    let lineText = w.rom 
+        ? `${w.num} ｜ ${w.th} ｜ ${w.rom}`
+        : `${w.num} ｜ ${w.th}`;
+
+    div.innerHTML = `
+        <div class="line">${lineText}</div>
+        <button onclick="speak('${w.th.replace(/ \+ /g,' ')}')">🔊 发音</button>
+    `;
+
+    container.appendChild(div);
+});
+</script>
+
+</body>
+</html>

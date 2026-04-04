@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+
+<!-- ⭐ 手机自适应 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ⭐ iPhone桌面图标（请放同目录） -->
+<link rel="apple-touch-icon" href="sanctuary-of-truth.png">
+
+<!-- ⭐ App模式 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Thai App">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>Thai Practice</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 15px;
+    margin: 0;
+}
+
+.card {
+    background: #e0e0e0;
+    padding: 25px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+h3 {
+    margin: 12px 0;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    color: white;
+}
+
+.blue { background: #1976D2; }
+.green { background: #4CAF50; }
+.gray { background: #9E9E9E; }
+.orange { background: #FF9800; }
+.purple { background: #9C27B0; }
+
+.hidden { display: none; }
+
+#counter {
+    color: gray;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.pron {
+    font-size: 14px;
+    color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div id="counter"></div>
+
+<h3 id="cn"></h3>
+<h3 id="th" class="hidden"></h3>
+<div id="pron" class="hidden pron"></div>
+
+<button class="blue" onclick="showThai()">显示泰文</button>
+<button class="blue" onclick="showPron()">显示发音</button>
+
+<button class="green" onclick="speakThai()">泰语发音</button>
+
+<button class="purple" onclick="autoPlayThai()">自动循环（泰语）</button>
+<button class="purple" onclick="autoPlayCNTH()">自动循环（中泰）</button>
+
+<button class="gray" onclick="next()">下一句</button>
+<button class="orange" onclick="random()">随机一句</button>
+
+</div>
+
+<script>
+
+// ⭐⭐⭐ 数据区 ⭐⭐⭐
+const data = [
+
+{cn:"你不寂寞么",th:"ไม่เหงาเหรอ",pron:"mâi ngǎo rŏe"},
+{cn:"昨天晚上你梦到我了吗？",th:"เมื่อวานคุณฝันถึงผมไหม",pron:"Muea-wan kun fan-teung pom mai"},
+{cn:"这个甜么？",th:"อันนี้หวานไหม",pron:"an-ní wǎan mái"},
+{cn:"比我还甜吗？",th:"หวานกว่าฉันไหม",pron:"wǎan gwàa chǎn mái"},
+{cn:"不要辣",th:"ไม่เผ็ดนะ / ไม่เผ็ดครับ",pron:"mâi phèt ná / mâi phèt khráp"},
+{cn:"有什么推荐吗？",th:"มีอะไรแนะนำไหม",pron:"mii à-rai náe-nam mái"},
+{cn:"明天你有空吗？",th:"พรุ่งนี้คุณว่างไหม",pron:"phrùng-níi khun wâang mái"},
+{cn:"明天你准备去哪里？",th:"พรุ่งนี้คุณไปไหน",pron:"phrùng-níi khun pai năi"},
+{cn:"我带你去吃好吃的。",th:"เดี๋ยวผมพาไปกินของอร่อย",pron:"dĭao pom phaa pai gin khŏng a-ròi"},
+{cn:"明天我们一起去打高尔夫？",th:"พรุ่งนี้เราไปตีกอล์ฟด้วยกันไหม",pron:"phrùng-níi rao pai dtì golf dûai gan mái"}
+
+];
+// ⭐⭐⭐ 结束 ⭐⭐⭐
+
+let index = 0;
+let playing = false;
+
+function update(){
+    document.getElementById("cn").innerText = data[index].cn;
+    document.getElementById("th").innerText = data[index].th;
+    document.getElementById("pron").innerText = data[index].pron;
+
+    document.getElementById("th").classList.add("hidden");
+    document.getElementById("pron").classList.add("hidden");
+
+    document.getElementById("counter").innerText = (index + 1) + " / " + data.length;
+}
+
+function showThai(){
+    document.getElementById("th").classList.remove("hidden");
+}
+
+function showPron(){
+    document.getElementById("pron").classList.remove("hidden");
+}
+
+function speak(text, lang="th-TH"){
+    return new Promise(resolve=>{
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = lang;
+        utter.rate = 0.9;
+        utter.onend = resolve;
+        speechSynthesis.speak(utter);
+    });
+}
+
+function speakThai(){
+    speak(data[index].th);
+}
+
+async function autoPlayThai(){
+    playing = true;
+    while(playing){
+        await speak(data[index].th);
+    }
+}
+
+async function autoPlayCNTH(){
+    playing = true;
+    while(playing){
+        await speak(data[index].cn, "zh-CN");
+        await speak(data[index].th);
+    }
+}
+
+function next(){
+    playing = false;
+    index++;
+    if(index >= data.length) index = 0;
+    update();
+}
+
+function random(){
+    playing = false;
+    index = Math.floor(Math.random() * data.length);
+    update();
+}
+
+update();
+
+</script>
+
+</body>
+</html>
