@@ -108,39 +108,60 @@ cn:"感觉你累了",
 en:"I feel like you’re tired.",
 th:"ดูเหมือนคุณจะเหนื่อยนะ",
 pron:"duu mʉ̌ʉan khun jà nʉ̀ai ná"
+},
+
+{
+cn:"感觉你变苗条了",
+en:"I feel like you’ve become slimmer.",
+th:"ดูเหมือนคุณจะผอมลงนะ",
+pron:"duu mʉ̌ʉan khun jà phŏm long ná"
+},
+
+{
+cn:"感觉你怀孕了",
+en:"I feel like you might be pregnant.",
+th:"ดูเหมือนคุณจะท้องนะ",
+pron:"duu mʉ̌ʉan khun jà thɔ́ɔng ná"
 }
 
 ];
 
+// 初始化
 function show(){
     document.getElementById("cn").innerText = data[index].cn;
     document.getElementById("display").innerText = "";
     document.getElementById("page").innerText = (index+1)+" / "+data.length;
 }
 
+// 显示英文
 function showEN(){
     document.getElementById("display").innerText = data[index].en;
 }
 
+// 显示泰文
 function showTH(){
     document.getElementById("display").innerText = data[index].th;
 }
 
+// 显示发音
 function showPron(){
     document.getElementById("display").innerText = data[index].pron;
 }
 
+// 播放泰语
 function speakTH(){
     let msg = new SpeechSynthesisUtterance(data[index].th);
     msg.lang = "th-TH";
     speechSynthesis.speak(msg);
 }
 
+// 下一句
 function next(){
     index = (index + 1) % data.length;
     show();
 }
 
+// 句型解说开关
 function toggleExplain(){
     let box = document.getElementById("explainBox");
     box.classList.toggle("hidden");
@@ -169,10 +190,8 @@ function toggleExplain(){
 
 <button class="next-btn" onclick="next()">➡ 下一个</button>
 
-<!-- ⭐ 句型按钮（已移动到这里） -->
 <button class="next-btn" onclick="toggleExplain()">📘 句型解说</button>
 
-<!-- ⭐ 句型内容 -->
 <div id="explainBox" class="explain hidden">
 
 <b>句型：</b><br>
@@ -183,10 +202,10 @@ duu mʉ̌ʉan khun jà + …… + khʉ̂n (ná)<br><br>
 <b>解说：</b><br>
 duu mʉ̌ʉan = I feel like / It seems like<br>
 khun = you<br>
-jà = will / might<br>
+jà = will / might（语气）<br>
 形容词 = 可替换<br>
 khʉ̂n = more（变得更）<br>
-ná = 语气词
+ná = 语气词（啊 / 呢）
 
 </div>
 
