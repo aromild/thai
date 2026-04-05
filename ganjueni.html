@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Sentence Practice</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f2f2f2;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.page-indicator {
+    background: #d9d9d9;
+    padding: 6px 0;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.chinese {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.display {
+    font-size: 18px;
+    margin: 5px 0 15px 0;
+    min-height: 100px;
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #007AFF;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+}
+
+.next-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: #ff9500;
+}
+
+.explain {
+    background: white;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    border-top: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+
+<script>
+let index = 0;
+
+const data = [
+
+{
+cn:"感觉你变漂亮了",
+en:"I feel like you’ve become more beautiful.",
+th:"ดูเหมือนคุณจะสวยขึ้นนะ",
+pron:"duu mʉ̌ʉan khun jà sǔai khʉ̂n ná"
+},
+
+{
+cn:"感觉你变胖了",
+en:"I feel like you’ve gained a little weight.",
+th:"ดูเหมือนคุณจะอ้วนขึ้นนะ",
+pron:"duu mʉ̌ʉan khun jà ûan khʉ̂n ná"
+},
+
+{
+cn:"感觉你困了",
+en:"I feel like you’re sleepy.",
+th:"ดูเหมือนคุณจะง่วงนะ",
+pron:"duu mʉ̌ʉan khun jà ngûang ná"
+},
+
+{
+cn:"感觉你累了",
+en:"I feel like you’re tired.",
+th:"ดูเหมือนคุณจะเหนื่อยนะ",
+pron:"duu mʉ̌ʉan khun jà nʉ̀ai ná"
+}
+
+];
+
+function show(){
+    document.getElementById("cn").innerText = data[index].cn;
+    document.getElementById("display").innerText = "";
+    document.getElementById("page").innerText = (index+1)+" / "+data.length;
+}
+
+function showEN(){
+    document.getElementById("display").innerText = data[index].en;
+}
+
+function showTH(){
+    document.getElementById("display").innerText = data[index].th;
+}
+
+function showPron(){
+    document.getElementById("display").innerText = data[index].pron;
+}
+
+function speakTH(){
+    let msg = new SpeechSynthesisUtterance(data[index].th);
+    msg.lang = "th-TH";
+    speechSynthesis.speak(msg);
+}
+
+function next(){
+    index = (index + 1) % data.length;
+    show();
+}
+
+function toggleExplain(){
+    let box = document.getElementById("explainBox");
+    box.classList.toggle("hidden");
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="page" class="page-indicator"></div>
+
+<div id="cn" class="chinese"></div>
+
+<div id="display" class="display"></div>
+
+<div class="buttons">
+<button onclick="showEN()">英文</button>
+<button onclick="showTH()">泰文</button>
+
+<button onclick="showPron()">发音</button>
+<button onclick="speakTH()">🔊</button>
+</div>
+
+<button class="next-btn" onclick="next()">➡ 下一个</button>
+
+<!-- ⭐ 句型按钮（已移动到这里） -->
+<button class="next-btn" onclick="toggleExplain()">📘 句型解说</button>
+
+<!-- ⭐ 句型内容 -->
+<div id="explainBox" class="explain hidden">
+
+<b>句型：</b><br>
+感觉你变得更……了<br>
+ดูเหมือนคุณจะ + 形容词 + ขึ้น (นะ)<br>
+duu mʉ̌ʉan khun jà + …… + khʉ̂n (ná)<br><br>
+
+<b>解说：</b><br>
+duu mʉ̌ʉan = I feel like / It seems like<br>
+khun = you<br>
+jà = will / might<br>
+形容词 = 可替换<br>
+khʉ̂n = more（变得更）<br>
+ná = 语气词
+
+</div>
+
+</div>
+
+<!-- 返回主页 -->
+<div style="position: fixed; bottom: 60px; width: 100%; text-align: center;">
+<a href="index.html">
+<button style="padding:12px 24px; border-radius:8px; background:#4CAF50; color:white;">
+⬅ Index
+</button>
+</a>
+</div>
+
+<!-- 版权 -->
+<div style="text-align:center; font-size:12px; color:#888; margin:20px 0;">
+© 2026 Ken. All rights reserved.
+</div>
+
+<script>
+show();
+</script>
+
+</body>
+</html>
