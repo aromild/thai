@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Self Introduction</title>
+
+<style>
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f2f2f2;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.page-indicator {
+    background: #d9d9d9;
+    padding: 6px 0;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.chinese {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.display {
+    font-size: 18px;
+    margin: 5px 0 15px 0;
+    min-height: 100px;
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #007AFF;
+    color: white;
+    font-size: 14px;
+    width: 100%;
+}
+
+.next-btn {
+    margin-top: 20px;
+    width: 100%;
+    background: #ff9500;
+}
+
+.explain {
+    background: white;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    border-top: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+
+<script>
+let index = 0;
+
+const data = [
+
+{
+cn:"你好",
+en:"Hello.",
+th:"สวัสดีครับ",
+pron:"sa-wat-dee krap"
+},
+
+{
+cn:"我叫Ken",
+en:"My name is Ken.",
+th:"ชื่อเคนครับ",
+pron:"chue Ken krap"
+},
+
+{
+cn:"我是中国人",
+en:"I am Chinese.",
+th:"เป็นคนจีนครับ",
+pron:"pen kon jeen krap"
+},
+
+{
+cn:"我在泰国工作",
+en:"I work in Thailand.",
+th:"ผมทำงานที่ประเทศไทย",
+pron:"phom tham-ngaan tee prathet thai"
+},
+
+{
+cn:"很高兴认识你",
+en:"Nice to meet you.",
+th:"ยินดีที่ได้รู้จักครับ",
+pron:"yin-dee tee dai roo-jak krap"
+}
+
+];
+
+// 初始化
+function show(){
+    document.getElementById("cn").innerText = data[index].cn;
+    document.getElementById("display").innerText = "";
+    document.getElementById("page").innerText = (index+1)+" / "+data.length;
+}
+
+// 显示英文
+function showEN(){
+    document.getElementById("display").innerText = data[index].en;
+}
+
+// 显示泰文
+function showTH(){
+    document.getElementById("display").innerText = data[index].th;
+}
+
+// 显示发音
+function showPron(){
+    document.getElementById("display").innerText = data[index].pron;
+}
+
+// 播放泰语
+function speakTH(){
+    let msg = new SpeechSynthesisUtterance(data[index].th);
+    msg.lang = "th-TH";
+    speechSynthesis.speak(msg);
+}
+
+// 下一句
+function next(){
+    index = (index + 1) % data.length;
+    show();
+}
+
+// 句型解说开关
+function toggleExplain(){
+    let box = document.getElementById("explainBox");
+    box.classList.toggle("hidden");
+}
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="page" class="page-indicator"></div>
+
+<div id="cn" class="chinese"></div>
+
+<div id="display" class="display"></div>
+
+<div class="buttons">
+<button onclick="showEN()">英文</button>
+<button onclick="showTH()">泰文</button>
+
+<button onclick="showPron()">发音</button>
+<button onclick="speakTH()">🔊</button>
+</div>
+
+<button class="next-btn" onclick="next()">➡ 下一个</button>
+
+<button class="next-btn" onclick="toggleExplain()">📘 句型解说</button>
+
+<div id="explainBox" class="explain hidden">
+
+<b>句型：</b><br>
+自我介绍基本结构<br><br>
+
+<b>模板：</b><br>
+สวัสดีครับ<br>
+ชื่อ + 名字 + ครับ<br>
+เป็นคน + 国家<br>
+ยินดีที่ได้รู้จักครับ<br><br>
+
+<b>解说：</b><br>
+สวัสดี = Hello<br>
+ชื่อ = 名字<br>
+เป็นคน = 是…人<br>
+ยินดีที่ได้รู้จัก = Nice to meet you<br>
+
+</div>
+
+</div>
+
+<!-- 返回主页 -->
+<div style="position: fixed; bottom: 60px; width: 100%; text-align: center;">
+<a href="index.html">
+<button style="padding:12px 24px; border-radius:8px; background:#4CAF50; color:white;">
+⬅ Index
+</button>
+</a>
+</div>
+
+<!-- 版权 -->
+<div style="text-align:center; font-size:12px; color:#888; margin:20px 0;">
+© 2026 Ken. All rights reserved.
+</div>
+
+<script>
+show();
+</script>
+
+</body>
+</html>
